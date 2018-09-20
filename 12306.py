@@ -5,6 +5,7 @@ import datetime
 import citys
 import re
 import time
+from urllib.parse import *
 stations = citys.getstations()
 
 ran = random.random()
@@ -26,21 +27,22 @@ class Func12306():
     def __init__(self):
         self.uamtk =''
         self.header = ''
-        self.cookies = {
-            "JSESSIONID": "9F1F33A95451ED8AE1BD50EAE23594ED",
-            "tk":"Nj8dRP5N3GQgiBE_l3rNUUXSmyxLn43G70boDA09l2l0",
-            "route": "9036359bb8a8a461c164a04f8f50b252",
-            "BIGipServerpassport":"786956554.50215.0000",
-            "BIGipServerotn": "2598633994.24610.0000",
-            "RAIL_EXPIRATION":"1537471377553",
-            "RAIL_DEVICEID": "o0Wit6ZuEuDBE7L9ETwWApWmSqgA821u8fUX1U0Neb2I0RkSAaFXzSLlaSs0NS2tUySfatfWEVe1LrkceglNIc3S1yASz2ip5SQe69VIZcd_Rx1CKbZUckDPRpJ8T0tuXnMSFKgfdzTlmjzHhaFOOMyyu40p-nsI",
-             "BIGipServerpool_passport":"267190794.50215.0000",
-            "_jc_save_toStation": "%u4E0A%u6D77%2CSHH",
-            "_jc_save_toDate":"2018-09-18",
-             "_jc_save_wfdc_flag": "dc",
-             "current_captcha_type":"Z",
-             "_jc_save_fromDate": "2018-09-19",                                                                                                                                                                                                                                      "_jc_save_fromStation":"%u6210%u90FD%2CCDW"
-        }
+        # self.cookies = {
+        #     "JSESSIONID": "9F1F33A95451ED8AE1BD50EAE23594ED",
+        #     "tk":"Nj8dRP5N3GQgiBE_l3rNUUXSmyxLn43G70boDA09l2l0",
+        #     "route": "9036359bb8a8a461c164a04f8f50b252",
+        #     "BIGipServerpassport":"786956554.50215.0000",
+        #     "BIGipServerotn": "2598633994.24610.0000",
+        #     "RAIL_EXPIRATION":"1537471377553",
+        #     "RAIL_DEVICEID": "o0Wit6ZuEuDBE7L9ETwWApWmSqgA821u8fUX1U0Neb2I0RkSAaFXzSLlaSs0NS2tUySfatfWEVe1LrkceglNIc3S1yASz2ip5SQe69VIZcd_Rx1CKbZUckDPRpJ8T0tuXnMSFKgfdzTlmjzHhaFOOMyyu40p-nsI",
+        #      "BIGipServerpool_passport":"267190794.50215.0000",
+        #     "_jc_save_toStation": "%u4E0A%u6D77%2CSHH",
+        #     "_jc_save_toDate":"2018-09-18",
+        #      "_jc_save_wfdc_flag": "dc",
+        #      "current_captcha_type":"Z",
+        #      "_jc_save_fromDate": "2018-09-19",                                                                                                                                                                                                                                      "_jc_save_fromStation":"%u6210%u90FD%2CCDW"
+        # }
+        self.cookies = {}
         self.tk = ''
         self.reSubmitTk = ''
         self.keyIsChange = ''
@@ -48,6 +50,7 @@ class Func12306():
         self.train_no = ''
         self.station_train_code = ''
         self.train_location = ''
+        self.purpose_codes = ''
 
 f12306 = Func12306()
 
@@ -63,7 +66,7 @@ header = {
 
 def get_img():
     url = "https://kyfw.12306.cn/passport/captcha/captcha-image?login_site=E&module=login&rand=sjrand&{}".format(random.random)
-    response = session.get(url=url,headers=header)
+    response = session.get(url=url,headers=header,cookies = f12306.cookies,verify = False)
     with open("./img.png", 'wb') as f:
         f.write(response.content)
 
@@ -83,7 +86,7 @@ def verify(clickList):
        '_json_att':"",
     }
 
-    response = session.post(url=url, data=data, headers=header)
+    response = session.post(url=url, data=data, headers=header,cookies = f12306.cookies,verify = False)
     try:
         dic = json.loads(response.text)
     except:
@@ -105,7 +108,7 @@ def check_usr():
         '_json_att': "",
     }
 
-    response = session.post(url=url,data=data)
+    response = session.post(url=url,data=data,headers=header,cookies = f12306.cookies,verify = False)
     info = None
     try:
         info = json.loads(response.text)
@@ -130,7 +133,7 @@ def check_usr():
             "appid": "otn",
             '_json_att':""
         }
-    response2 = session.post(url=url2,data=data2)
+    response2 = session.post(url=url2,data=data2,headers=header,cookies = f12306.cookies,verify = False)
     info2 = None
     try:
         info2 = json.loads(response2.text)
@@ -154,7 +157,7 @@ def check_usr():
              '_json_att': "",
              }
 
-    response3 = session.post(url=url3,data=data3)
+    response3 = session.post(url=url3,data=data3,headers=header,cookies = f12306.cookies,verify = False)
     info3 = None
     try:
         info3 = json.loads(response3.text)
@@ -196,7 +199,7 @@ My_passengerInfo = {}
 def get_passenger_info():
     url = 'https://kyfw.12306.cn/otn/confirmPassenger/getPassengerDTOs'
 
-    response = session.post(url=url,headers = header)
+    response = session.post(url=url,headers = header,cookies = f12306.cookies,verify = False)
     info = None
     try:
         info = json.loads(response.text)
@@ -210,7 +213,7 @@ def get_passenger_info():
 
         passenger_info = info['data']['normal_passengers']
         for a in passenger_info:
-            My_passengerInfo[a['passenger_name']] = passengerInfo(a['passenger_name'],a['passenger_id_no'],a['mobile_no'])
+            My_passengerInfo[a['passenger_name']] = [a['passenger_name'],a['passenger_id_no'],a['mobile_no']]#passengerInfo(a['passenger_name'],a['passenger_id_no'],a['mobile_no'])
 
 My_trainInfo = {}
 
@@ -236,9 +239,13 @@ def serch_tickets(date,from_station,to_station):
     f12306.cookies["_jc_save_wfdc_flag"]= "dc"
     f12306.cookies["_jc_save_toDate"]= date
 
+    session.cookies.set('_jc_save_fromDate',date)
+    session.cookies.set('_jc_save_fromStation',f_station)
+    session.cookies.set('_jc_save_toDate','2018-09-20')
+    session.cookies.set('_jc_save_toStation',t_station)
+    session.cookies.set('_jc_save_wfdc_flag','dc')
 
-
-    response = session.get(url=url,headers = header,cookies = f12306.cookies,verify = False)
+    response = session.get(url=url,headers = header)
     train_info = None
     try:
         train_info = json.loads(response.text)
@@ -295,7 +302,7 @@ class trainInfo():
 
 def get_stations():
     url = 'https://kyfw.12306.cn/otn/resources/js/framework/station_name.js'
-    response = session.get(url=url)
+    response = session.get(url=url, headers=header,cookies = f12306.cookies,verify = False)
     if response.status_code == 200:
         pass
 
@@ -315,7 +322,7 @@ def check_user():
     data = {"_json_att": ""}
     # self.headers["Cache-Control"] = "no-cache"
     # self.headers["If-Modified-Since"] = "0"
-    response = session.post(url=url, data=data, headers=header)
+    response = session.post(url=url, data=data, headers=header,cookies = f12306.cookies,verify = False)
     try:
         dic = json.loads(response.text)
     except:
@@ -328,18 +335,23 @@ def check_user():
         return False
 
 def submit_order(startStation, endStation, startDate,trainName):
-    url = 'https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest'
-    data = {"secretStr": My_trainInfo[trainName].get_SecretStrList(),
+    url = r'https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest'
+    data = {"secretStr": unquote(My_trainInfo[trainName].get_SecretStrList()),
             "train_date": startDate,
-            "back_train_date": '2018-09-18',
+            "back_train_date": time.strftime("%Y-%m-%d", time.localtime()),
             "tour_flag": "dc",
             "purpose_codes": "ADULT",
             "query_from_station_name": startStation,
             "query_to_station_name": endStation,
             "undefined": ""
             }
+    header = {
+                'Referer': 'https://kyfw.12306.cn/otn/leftTicket/init',
+                'Content-Type': r'application/x-www-form-urlencoded; charset=UTF-8',
+                'Host': r'kyfw.12306.cn',
+            }
 
-    response = session.post(url=url, data=data,headers = header,cookies = f12306.cookies,verify = False)
+    response = session.post(url=url, data=data,headers = header)
     try:
         dic = json.loads(response.text)
     except:
@@ -361,7 +373,7 @@ def submit_order(startStation, endStation, startDate,trainName):
 def confirm_passenger():
     url = 'https://kyfw.12306.cn/otn/confirmPassenger/initDc'
     data = {"_json_att": ''}
-    response = session.post(url=url, data=data)
+    response = session.post(url=url, data=data,headers=header,cookies = f12306.cookies,verify = False)
     try:
         f12306.reSubmitTk = re.findall('globalRepeatSubmitToken = \'(\S+?)\'', response.text)[0]
         f12306.keyIsChange = re.findall('key_check_isChange\':\'(\S+?)\'', response.text)[0]
@@ -369,16 +381,17 @@ def confirm_passenger():
         f12306.train_no = re.findall('train_no\':\'(\S+?)\'', response.text)[0]
         f12306.station_train_code = re.findall('station_train_code\':\'(\S+?)\'', response.text)[0]
         f12306.train_location = re.findall('train_location\':\'(\S+?)\'', response.text)[0]
+        f12306.purpose_codes = re.findall('purpose_codes\':\'(\S+?)\'', response.text)[0]
     except:
         print("获取KEY失败")
         return 'NetWorkError'
 
-def check_order( passengersList):
+def check_order( seatType,passengersList):
     url = 'https://kyfw.12306.cn/otn/confirmPassenger/checkOrderInfo'
     passengerTicketStr = ""
     oldPassengerStr = ""
     for a in passengersList:
-        passengerTicketStr += 'O' + ",0,1,{},1,{},{},N_".format(My_passengerInfo[a][0], My_passengerInfo[a][1], My_passengerInfo[a][2])
+        passengerTicketStr += seatCodeList[seatType] + ",0,1,{},1,{},{},N_".format(My_passengerInfo[a][0], My_passengerInfo[a][1], My_passengerInfo[a][2])
         oldPassengerStr += "{},1,{},1_".format(My_passengerInfo[a][0], My_passengerInfo[a][1])
     data = {
         "cancel_flag": "2",
@@ -391,9 +404,9 @@ def check_order( passengersList):
         "_json_att": "",
         "REPEAT_SUBMIT_TOKEN": f12306.reSubmitTk
     }
-    response = session.post(url=url, data=data)
+    response = session.post(url=url, data=data,headers=header,cookies = f12306.cookies,verify = False)
     try:
-        dic = json.loads(response.content)
+        dic = json.loads(response.text)
     except:
         return "NetWorkError"
     if dic['data']['submitStatus'] is True:
@@ -408,7 +421,7 @@ def check_order( passengersList):
 def get_buy_image():
     url = 'https://kyfw.12306.cn/otn/passcodeNew/getPassCodeNew?module=passenger&rand=randp&{}'.format(
         random.random())
-    response = session.get(url=url, headers=header)
+    response = session.get(url=url, headers=header,cookies = f12306.cookies,verify = False)
     with open( "./buyimg.jpg", 'wb') as f:
         f.write(response.content)
 
@@ -432,9 +445,9 @@ def get_queue_count( startStation, endStation, startDate, seatType):
         "_json_att": "",
         "REPEAT_SUBMIT_TOKEN": f12306.reSubmitTk
     }
-    response = session.post(url=url, data=data, headers=header)
+    response = session.post(url=url, data=data, headers=header,cookies = f12306.cookies,verify = False)
     try:
-        dic = json.loads(response.content)
+        dic = json.loads(response.text)
     except:
         return "NetWorkError"
     if dic['status']:
@@ -449,7 +462,7 @@ def confirm_single_for_queue(seatType, passengersList, trainName,clickList = Non
     passengerTicketStr = ""
     oldPassengerStr = ""
     for a in passengersList:
-        passengerTicketStr += seatCodeList[seatType] + ",0,1,{},1,{},{},N_".format(
+        passengerTicketStr += seatCodeList[seatType] + ",0,1,{},1,{},{},N".format(
             My_passengerInfo[a][0], My_passengerInfo[a][1], My_passengerInfo[a][2])
         oldPassengerStr += "{},1,{},1_".format(My_passengerInfo[a][0], My_passengerInfo[a][1])
 
@@ -467,10 +480,10 @@ def confirm_single_for_queue(seatType, passengersList, trainName,clickList = Non
         "passengerTicketStr": passengerTicketStr,
         "oldPassengerStr": oldPassengerStr,
         "randCode": codeList,
-        "purpose_codes": "00",
+        "purpose_codes": f12306.purpose_codes,
         "key_check_isChange": f12306.keyIsChange,
         "leftTicketStr": f12306.leftTicketStr,
-        "train_location": My_trainInfo[trainName].get_locationlist,
+        "train_location": My_trainInfo[trainName].get_locationlist(),
         "choose_seats": "",
         "seatDetailType": "000",
         "whatsSelect": "1",
@@ -479,7 +492,10 @@ def confirm_single_for_queue(seatType, passengersList, trainName,clickList = Non
         "_json_att": "",
         "REPEAT_SUBMIT_TOKEN": f12306.reSubmitTk
     }
-    response = session.post(url=url, data=data, headers=header)
+    header1= {
+        'Referer': r'https://kyfw.12306.cn/otn/confirmPassenger/initDc',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',}
+    response = session.post(url=url, data=data, headers=header1)
     try:
         dic = json.loads(response.content)
     except:
@@ -499,9 +515,9 @@ def confirm_single_for_queue(seatType, passengersList, trainName,clickList = Non
 
 def wait_time():
     url = 'https://kyfw.12306.cn/otn/confirmPassenger/queryOrderWaitTime?random={}&tourFlag=dc&_json_att=&REPEAT_SUBMIT_TOKEN={}'.format(round(time.time()*1000),f12306.reSubmitTk)
-    response = session.get(url=url, headers=header)
+    response = session.get(url=url, headers=header,cookies = f12306.cookies,verify = False)
     try:
-        dic = json.loads(response.content)
+        dic = json.loads(response.text)
     except:
         return "NetWorkError"
     if dic['status']:
@@ -509,8 +525,8 @@ def wait_time():
             if dic['data']['waitTime'] > 0 :
                 return dic['data']['waitTime']
             elif dic['data']['waitTime'] == -1:
-                Func12306.orderId = ''
-                Func12306.orderId = dic['data']['orderId']
+                f12306.orderId = ''
+                f12306.orderId = dic['data']['orderId']
                 return dic['data']['waitTime']
             else:
                 return False
@@ -521,24 +537,27 @@ def wait_time():
 
 while not login():
     continue
+
+get_stations()
 #get_passenger_info()
 # while not serch_tickets('2018-09-20','北京','上海')[0]:
 #     continue
 time.sleep(3)
-while not check_ticket('北京','上海','2018-09-20','二等座','G101'):
+while not check_ticket('北京','上海','2018-09-26','一等座','G101'):
     time.sleep(3)
     continue
 check_user()
-time.sleep(3)
-while not submit_order('北京','上海','2018-09-20','G101'):
-    time.sleep(1)
+
+while not submit_order('北京南','上海虹桥','2018-09-27','G101'):
+    check_ticket('北京', '上海', '2018-09-27', '一等座', 'G101')
     continue
 time.sleep(3)
 confirm_passenger()
-check_order('李秋东')
+get_passenger_info()
+check_order('一等座',['李秋东'])
 get_buy_image()
-get_queue_count('北京','上海','2018-09-20','二等座')
-confirm_single_for_queue('二等座','李秋东','G101')
+get_queue_count('北京','上海','2018-09-27','一等座')
+confirm_single_for_queue('一等座',['李秋东'],'G101')
 wait_time()
 
 #get_passenger_info()
