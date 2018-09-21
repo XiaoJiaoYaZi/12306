@@ -407,13 +407,7 @@ class Submit(object):
         return True
 
 if __name__ == '__main__':
-    from train.login.Login import Login
-    login = Login()
-    login.Login('lqd5906313','Lqd5906313')
-    from train.query.query import Query
-    ticket = Query.loopQuery('北京','上海','2018-09-26',['M','O'],['G101'],1)
-    submit = Submit(ticket,['李秋东'])
-    submit.submit()
+    pass
 
 
 

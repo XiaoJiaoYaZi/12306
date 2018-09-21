@@ -78,7 +78,4 @@ class Login(object):
 
 
 if __name__ == '__main__':
-    login = Login()
-    login.Login('lqd5906313','Lqd5906313')
-    a = login.LogOut()
-    print(a)
+    pass
