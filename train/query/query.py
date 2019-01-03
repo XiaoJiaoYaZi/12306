@@ -40,7 +40,7 @@ INDEX_TRAIN_SOFT_SEAT = 24
 #  硬座：29
 INDEX_TRAIN_HARD_SEAT = 29
 #  无座：26
-INDEX_TRAIN_NO_SEAT = 28
+INDEX_TRAIN_NO_SEAT = 26
 #  其他：22
 INDEX_TRAIN_OTHER = 22
 #  备注：1
@@ -119,7 +119,7 @@ class Query(object):
             if not filterTrain(ticket,trainName):
                 continue
             for seat , retain in filterTickets(ticket,seatType):
-                if retain and retain !='无':
+                if retain and retain !='无' and retain !='*':
                     print(seat,retain)
                     ticket.queryseat = seat
                     yield ticket

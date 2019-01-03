@@ -56,5 +56,5 @@ def filterTickets(ticketDetail:TicketDetails,seatType:list):
         if seat == SEAT_TYPE[SeatName.HARD_SEAT]:
             yield SeatName.HARD_SEAT, ticketDetail.hardSeat
             continue
-        if seat == SEAT_TYPE[SeatName.NO_SEAT]:
+        if seat == '0':
             yield SeatName.NO_SEAT, ticketDetail.noSeat

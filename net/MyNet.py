@@ -1,6 +1,20 @@
 import requests
 import time
+import random
+import re
+from adress import Urls
 
+url = 'http://www.xicidaili.com/nn/'
+html = requests.get(url=url, headers=Urls.header).text
+regip = r'<td>(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})</td>\s*?<td>(\d*)</td>'
+matcher = re.compile(regip)
+ipstr = re.findall(matcher, html)
+ip_list = {}
+for ipport in ipstr:
+    ip_list[ipport[0]] = ipport[1]
+# 随机获取列表中一个ip
+ip = random.choice(list(ip_list.keys()))
+ip = {ip:ip_list[ip]}
 
 
 def sendLogic(func):
@@ -23,7 +37,7 @@ class MyNets(object):
     def resetHeaders():
         MyNets.__session.headers.clear()
         MyNets.__session.headers.update({
-            'Host': r'kyfw.12306.cn',
+            'Host': 'kyfw.12306.cn',
             'Referer': 'https://kyfw.12306.cn/otn/login/init',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36',
         })
@@ -50,6 +64,7 @@ class MyNets(object):
                                                 data=data,
                                                 timeout=10,
                                                 allow_redirects=False,
+                                                proxies = {'61.135.217.7':80},
                                                 **kwargs)
             if response.status_code == requests.codes.ok:
                 try:

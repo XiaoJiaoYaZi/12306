@@ -108,7 +108,6 @@ class Submit(object):
         response = MyNets.send(urlInfo=urlInfo,data=data)
         if response:
             if response['status']:
-                #print('提交订单成功')
                 return True,'提交订单成功'
             elif response['messages'] != '[]':
                 if response['messages'] == "车票信息已过期，请重新查询最新车票信息":
@@ -117,7 +116,7 @@ class Submit(object):
             else:
                 #print(response['messages'])
                 return False,response['messages']
-        return False,''
+        return False,'_submitOrderRequest No response'
 
     def _confirm_passenger(self):
         urlInfo = Urls['initDc']
@@ -194,7 +193,7 @@ class Submit(object):
                 return False,''
             passengerTicketStr += SEAT_TYPE[self.__ticketDetail.queryseat] + ",0,1,{},1,{},{},N_".format(self.passenger_info[a].passengerName,
                                                                                               self.passenger_info[a].passengerIdNo,
-                                                                                              self.passenger_info[a].phoneNo)
+                                                                                              self.passenger_info[a].mobileNo)
             oldPassengerStr += "{},1,{},1_".format(self.passenger_info[a].passengerName, self.passenger_info[a].passengerIdNo)
         #去掉最后的“_”
         #passengerTicketStr = passengerTicketStr[:-1]
@@ -216,8 +215,8 @@ class Submit(object):
         if response:
             if response['data']['submitStatus']:
                 return True,response['data']['ifShowPassCode']
-            return False,''
-        return False,''
+            return False,response['data']['errMsg']
+        return False,'check_order No response'
 
     def _get_buy_image(self):
         urlInfo = Urls['CaptureNew']
@@ -260,7 +259,7 @@ class Submit(object):
             #多个联系人用 ’_'链接
             passengerTicketStr += SEAT_TYPE[self.__ticketDetail.queryseat] + ",0,1,{},1,{},{},N_".format(self.passenger_info[a].passengerName,
                                                                                               self.passenger_info[a].passengerIdNo,
-                                                                                              self.passenger_info[a].phoneNo)
+                                                                                              self.passenger_info[a].mobileNo)
             oldPassengerStr += "{},1,{},1_".format(self.passenger_info[a].passengerName, self.passenger_info[a].passengerIdNo)
         passengerTicketStr = passengerTicketStr[:-1]
         data = {
@@ -286,6 +285,9 @@ class Submit(object):
                 print("提交订单成功")
                 return True
             elif response['data']['errMsg'] == "验证码输入错误！":
+                return False
+            else:
+                print(response['data']['errMsg'])
                 return False
 
         else:
@@ -341,12 +343,17 @@ class Submit(object):
         result,msg = self._submitOrderRequest()
         print(msg)
         if not result:
+            print(msg)
             return False
 
         if not self._getPassengerDTOs():
+            print('获取联系人信息失败')
             return False
 
         result ,msg = self._check_order()
+        if not result:
+            print(msg)
+            return False
         img = self._get_buy_image()
         verify = ''
         if msg =='Y':
@@ -354,25 +361,28 @@ class Submit(object):
             print(SHOW_MODEL)
             text = input("请输入验证码,按上图所示,多个用’,'分割")
             verify = Capture._makeCode(text.split(','))
-
+        print('正在排队购票')
         status, msg, leftTickets, personsCount = self._getQueueCount()
         if not status:
+            print(msg)
             return False
         print('%s 剩余车票:%s ,目前排队人数: %s' % (self.__ticketDetail.trainNo, leftTickets, personsCount))
 
+        print('正则提交订单')
         if not self._confirm_single_for_queue(verify):
             return False
 
         orderId = self.__waitForOrderId()
-
-        status, msg, submitStatus = self._resultOrderForDcOrWcQueue(orderId)
-        print(msg)
-        if not status:
-            return False
-        if not submitStatus:
+        if orderId is not None:
+            status, msg, submitStatus = self._resultOrderForDcOrWcQueue(orderId)
             print(msg)
-        print('您已成功订购火车票！请在30分钟内前往12306官方网站进行支付！')
-        return True
+            if not status:
+                return False
+            if not submitStatus:
+                print('提交失败')
+            print('您已成功订购火车票！请在30分钟内前往12306官方网站进行支付！')
+            return True
+        return False
 
     def _queryMyOrderNoComplete(self):
         formData = {
