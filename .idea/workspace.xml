@@ -3,12 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0a49d1c9-9129-4086-ae09-b875dc085780" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adress/Urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/adress/Urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.ini" beforeDir="false" afterPath="$PROJECT_DIR$/config.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/do12306.py" beforeDir="false" afterPath="$PROJECT_DIR$/do12306.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/net/MyNet.py" beforeDir="false" afterPath="$PROJECT_DIR$/net/MyNet.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train/login/Capthca.py" beforeDir="false" afterPath="$PROJECT_DIR$/train/login/Capthca.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train/submit/Submit.py" beforeDir="false" afterPath="$PROJECT_DIR$/train/submit/Submit.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -72,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/train/login/Capthca.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="425">
+              <caret line="43" selection-start-line="43" selection-end-line="43" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -98,6 +93,15 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
               <caret line="1230" selection-start-line="1230" selection-end-line="1230" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/config.ini">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="15" lean-forward="true" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -126,12 +130,12 @@
         <option value="$PROJECT_DIR$/train/query/query.py" />
         <option value="$PROJECT_DIR$/train/Content.py" />
         <option value="$PROJECT_DIR$/train/TrainFuncs.py" />
-        <option value="$PROJECT_DIR$/config.ini" />
         <option value="$PROJECT_DIR$/train/submit/Submit.py" />
         <option value="$PROJECT_DIR$/do12306.py" />
         <option value="$PROJECT_DIR$/net/MyNet.py" />
         <option value="$PROJECT_DIR$/train/login/Capthca.py" />
         <option value="$PROJECT_DIR$/adress/Urls.py" />
+        <option value="$PROJECT_DIR$/config.ini" />
       </list>
     </option>
   </component>
@@ -297,14 +301,22 @@
       <option name="project" value="LOCAL" />
       <updated>1546515348530</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="12306 获取验证码有2中方式，第二种采用时间戳">
+      <created>1546602477459</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1546602477459</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4989059" visible="true" weight="0.13066386" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4989059" visible="true" weight="0.13066386" />
       <window_info id="Structure" order="1" sideWeight="0.5010941" side_tool="true" weight="0.24966975" />
       <window_info anchor="bottom" id="Version Control" />
       <window_info anchor="bottom" id="Python Console" weight="0.42521995" />
@@ -313,7 +325,7 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.19501466" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.21994135" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.20155902" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.20155902" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -324,7 +336,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="12306 网站有些改动" />
-    <option name="LAST_COMMIT_MESSAGE" value="12306 网站有些改动" />
+    <MESSAGE value="12306 获取验证码有2中方式，第二种采用时间戳" />
+    <option name="LAST_COMMIT_MESSAGE" value="12306 获取验证码有2中方式，第二种采用时间戳" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -438,13 +451,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.ini">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="12" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/train/Content.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="156">
@@ -540,11 +546,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/train/login/Capthca.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
+        <state relative-caret-position="425">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.ini">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="15" lean-forward="true" selection-start-line="9" selection-start-column="15" selection-end-line="9" selection-end-column="15" />
         </state>
       </provider>
     </entry>
