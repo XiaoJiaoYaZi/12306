@@ -74,6 +74,14 @@ class Submit(object):
     def __init__(self,ticketDetail:TicketDetails,passengerList):
         self.__ticketDetail = ticketDetail
         self.__passengerList = passengerList
+        self._getPassengerDTOs()
+
+    @property
+    def ticketDetail(self):
+        return self.__ticketDetail
+    @ticketDetail.setter
+    def ticketDetail(self,value):
+        self.__ticketDetail = value
 
     #验证用户在线
     def _checkusrOnline(self):
@@ -150,10 +158,6 @@ class Submit(object):
 
     #获取联系人信息
     def _getPassengerDTOs(self):
-
-        if not self._confirm_passenger():
-            return False
-
         response = MyNets.send(Urls['PassengerDTOs'])
         if response:
             if response['messages'] =='系统忙，请稍后重试':
@@ -346,9 +350,13 @@ class Submit(object):
             print(msg)
             return False
 
-        if not self._getPassengerDTOs():
-            print('获取联系人信息失败')
+        if not self._confirm_passenger():
+            print('确认乘客失败')
             return False
+
+        # if not self._getPassengerDTOs():
+        #     print('获取联系人信息失败')
+        #     return False
 
         result ,msg = self._check_order()
         if not result:
@@ -394,7 +402,7 @@ class Submit(object):
 
     def showSubmitInfoPretty(self):
         status, msg, jsonTicketInfo = self._queryMyOrderNoComplete()
-        if not status:
+        if not status or msg==[]:
             return False
         from prettytable import PrettyTable
         table = PrettyTable()

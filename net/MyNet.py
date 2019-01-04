@@ -36,11 +36,7 @@ class MyNets(object):
     @staticmethod
     def resetHeaders():
         MyNets.__session.headers.clear()
-        MyNets.__session.headers.update({
-            'Host': 'kyfw.12306.cn',
-            'Referer': 'https://kyfw.12306.cn/otn/login/init',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.87 Safari/537.36',
-        })
+        MyNets.__session.headers.update(Urls.header)
 
     @staticmethod
     def setCookies(**kwargs):
@@ -64,7 +60,7 @@ class MyNets(object):
                                                 data=data,
                                                 timeout=10,
                                                 allow_redirects=False,
-                                                proxies = {'61.135.217.7':80},
+                                                proxies = ip,
                                                 **kwargs)
             if response.status_code == requests.codes.ok:
                 try:
@@ -79,7 +75,7 @@ class MyNets(object):
                 except Exception as e:
                     print(e)
                 return None
-        except:
+        except Exception as e:
             pass
         return None
 

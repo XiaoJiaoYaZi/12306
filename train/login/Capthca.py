@@ -4,7 +4,7 @@ from PIL import Image
 from net.MyNet import MyNets
 import time
 import random
-
+import base64
 
 SHOW_MODEL = '''
             -----------------
@@ -26,7 +26,16 @@ class Capture(object):
     def getCapture(self):
         urlInfo = Urls['capture']
         urlInfo['url'] = urlInfo['url'].format(random.random())
-        return MyNets.send(urlInfo=urlInfo)
+        #response =  MyNets.send(urlInfo=urlInfo)
+        response = None
+        if response is None:
+            urlInfo = Urls['capture2']
+            now = int(time.time()*1000)
+            urlInfo['url'] = urlInfo['url'].format(now,now,now+1)
+            response = MyNets.send(urlInfo=urlInfo)
+            return base64.b64decode(response['image'])
+        else:
+            return response
 
     def QueryManual(self):
         def capTure():
