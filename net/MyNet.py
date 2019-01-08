@@ -76,6 +76,7 @@ class MyNets(object):
                     print(e)
                 return None
         except Exception as e:
+            return None
             pass
         return None
 

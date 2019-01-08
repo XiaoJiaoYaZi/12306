@@ -16,7 +16,7 @@ while True:
     try:
         print('*'*40)
         ticket = Query.loopQuery(config['config']['startStation'], config['config']['endStattion'], config['config']['time'],
-                                 config['config']['seatType'].split(','), config['config']['train'].split(','), 5)
+                                 config['config']['seatType'].split(','), config['config']['train'].split(','), 1)
         print('已查询到余票：%s'%ticket)
 
         #submit = Submit(ticket, config['config']['passenger'].split(','))

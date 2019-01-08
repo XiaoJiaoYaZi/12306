@@ -26,12 +26,11 @@ class Capture(object):
     def getCapture(self):
         urlInfo = Urls['capture']
         urlInfo['url'] = urlInfo['url'].format(random.random())
-        #response =  MyNets.send(urlInfo=urlInfo)
-        response = None
+        response =  MyNets.send(urlInfo=urlInfo)
         if response is None:
             urlInfo = Urls['capture2']
             now = int(time.time()*1000)
-            urlInfo['url'] = urlInfo['url'].format(now,now,now+1)
+            urlInfo['url'] = urlInfo['url'].format(now)
             response = MyNets.send(urlInfo=urlInfo)
             return base64.b64decode(response['image'])
         else:
