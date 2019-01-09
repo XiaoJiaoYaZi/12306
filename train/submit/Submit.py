@@ -163,13 +163,14 @@ class Submit(object):
                 response = MyNets.send(Urls['PassengerDTOs'])
                 if response:
                     if response['messages'] =='系统忙，请稍后重试':
-                        print('系统忙，获取联系人信息失败')
+                        time.sleep(1)
                         continue
+                        #return False
                     self.passenger_info = self.__getPassengerInfo(response['data']['normal_passengers'])
                     return True
-                continue
-            except TimeoutError as e:
-                print(e)
+                return False
+            except TimeoutError:
+                print('获取联系人超时，重试...')
 
     def __getPassengerInfo(self, passengersList):
         passengersDetails = {}
@@ -328,7 +329,6 @@ class Submit(object):
                     print(errorMsg)
                     return None
             interval = waitTime // 60
-            print(status, msg, waitTime, orderId, errorMsg)
             print('未出票，订单排队中...预估等待时间: %s 分钟' % (interval if interval <= 30 else '超过30'))
             if interval > 30:
                 time.sleep(60)
@@ -382,7 +382,7 @@ class Submit(object):
             return False
         print('%s 剩余车票:%s ,目前排队人数: %s' % (self.__ticketDetail.trainNo, leftTickets, personsCount))
 
-        print('正在提交订单')
+        print('正则提交订单')
         if not self._confirm_single_for_queue(verify):
             return False
 
@@ -409,8 +409,7 @@ class Submit(object):
     def showSubmitInfoPretty(self):
         status, msg, jsonTicketInfo = self._queryMyOrderNoComplete()
         if not status or msg==[]:
-            print('获取车票信息失败，请登录12306查看')
-            return True
+            return False
         from prettytable import PrettyTable
         table = PrettyTable()
         table.field_names = '序号 车次信息 席位信息 旅客信息 票款金额 车票状态'.split(sep=' ')

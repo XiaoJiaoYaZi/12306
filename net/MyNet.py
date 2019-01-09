@@ -77,7 +77,6 @@ class MyNets(object):
                 return None
         except Exception as e:
             return None
-            pass
         return None
 
 if __name__ == '__main__':
