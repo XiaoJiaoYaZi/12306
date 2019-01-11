@@ -38,8 +38,13 @@ class Capture(object):
 
     def QueryManual(self):
         def capTure():
-            img = Image.open(BytesIO(self.getCapture()))
-            img.show()
+            while True:
+                try:
+                    img = Image.open(BytesIO(self.getCapture()))
+                    img.show()
+                    break
+                except:
+                    continue
             print(SHOW_MODEL)
             text = input("请输入验证码,按上图所示,多个用’,'分割")
             return self._makeCode(text.split(','))

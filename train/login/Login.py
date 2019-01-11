@@ -10,6 +10,8 @@ def LoginLogic(func):
     def wrapper(*args,**kwargs):
         response = func(*args,**kwargs)
         print(response)
+        if response is None:
+            return False
         if response['result_code'] == RESULT_OK:
             return True
         else:

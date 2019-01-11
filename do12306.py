@@ -27,3 +27,5 @@ while True:
 
     except Exception as e:
         print(e)
+
+login.LogOut()

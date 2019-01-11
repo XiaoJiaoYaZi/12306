@@ -161,16 +161,16 @@ class Submit(object):
         while True:
             try:
                 response = MyNets.send(Urls['PassengerDTOs'])
-                if response:
+                if response is not None:
                     if response['messages'] =='系统忙，请稍后重试':
                         time.sleep(1)
                         continue
                         #return False
                     self.passenger_info = self.__getPassengerInfo(response['data']['normal_passengers'])
                     return True
-                return False
-            except TimeoutError:
-                print('获取联系人超时，重试...')
+                continue
+            except Exception:
+                print('获取联系人失败，重试...')
 
     def __getPassengerInfo(self, passengersList):
         passengersDetails = {}
